@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    
     <title>Resolve One</title>
 </head>
 
@@ -24,24 +25,14 @@
         <p onclick="window.open('/resolve.html','_self')">Report Issue</p>
     </nav>
 
-    <h2>📷 Live Camera Preview</h2>
-    <video id="video" width="300" height="250" autoplay></video>
-    <br>
-    <button id="captureBtn">Capture</button>
-    <canvas id="canvas" width="300" height="250" style="display:none;"></canvas>
-
-
-     <!DOCTYPE html>
-<html>
-<head>
-  <title>Back Camera Access (Mobile-Friendly)</title>
-</head>
-<body>
-  <h2>📷 Mobile Back Camera Preview New</h2>
-  <video id="video" width="320" height="240" autoplay playsinline></video>
-  <br>
-  <button id="captureBtn">Capture</button>
-  <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+    <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
+        <h2 style="font-family: 'Oswald', sans-serif;" class="self-start text-2xl">Capture Image</h2>
+        <video class="border-1 my-5 w-full" id="video" width="320" height="240" autoplay playsinline></video>
+        <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+    </div>
+    <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
+        <button id="captureBtn" class="w-full border-1 p-4">Capture</button>
+    </div>
 
   <script>
     const video = document.getElementById('video');
@@ -58,20 +49,18 @@
     })
     .catch(err => {
       console.error("Error accessing camera:", err);
-      alert("Camera access failed");
+    //   alert("Camera access failed");
     });
 
     captureBtn.addEventListener('click', () => {
       canvas.style.display = "block";
+      video.style.display = "none";
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const image = canvas.toDataURL("image/png");
       console.log("Captured image:", image);
     });
   </script>
-</body>
-</html>
-
 </body>
 
 </html>
