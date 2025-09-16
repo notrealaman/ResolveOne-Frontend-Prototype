@@ -2,40 +2,41 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    
-    <title>Resolve One</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+  <title>Resolve One</title>
 </head>
 
 <style>
-    body {
-        overflow: hidden;
-    }
+  body {
+    overflow-x: hidden;
+  }
 </style>
 
 <body>
-    <nav class="w-full h-20 px-5 bg-black text-white flex flex-row justify-between items-center">
-        <h1 onclick="window.open('/','_self')" style="font-family: 'Oswald', sans-serif;" class="text-2xl font-bold">
-            ResolveOne</h1>
-        <p onclick="window.open('/resolve.html','_self')">Report Issue</p>
-    </nav>
+  <nav class="w-full h-20 px-5 bg-black text-white flex flex-row justify-between items-center">
+    <h1 onclick="window.open('/','_self')" style="font-family: 'Oswald', sans-serif;" class="text-2xl font-bold">
+      ResolveOne</h1>
+    <p onclick="window.open('./resolve.html','_self')">Report Issue</p>
+  </nav>
 
-    <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
-        <h2 style="font-family: 'Oswald', sans-serif;" class="self-start text-2xl">Capture Image</h2>
-        <video class="border-1 my-5 w-full" id="video" width="320" height="240" autoplay playsinline></video>
-        <canvas id="canvas" class="border-1 my-5 w-full" width="320" height="240" style="display:none;"></canvas>
-    </div>
-    <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
-        <button id="captureBtn" class="w-full border-1 p-4">Capture</button>
-        <textarea class="border-1 my-5 text-lg h-30 p-2 w-full" type="text" placeholder="Enter Caption and Details about issue" id=""></textarea>
-        <input class="border-1 my-5 text-lg h-12 p-2 w-full" type="text" name="" id="location">
-      <button id="submitBtn" class="w-full border-1 p-4">Submit Issue</button>
-    </div>
+  <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
+    <h2 style="font-family: 'Oswald', sans-serif;" class="self-start text-2xl">Capture Image</h2>
+    <video class="border-1 my-5 w-full" id="video" width="320" height="240" autoplay playsinline></video>
+    <canvas id="canvas" class="border-1 my-5 w-full" width="320" height="240" style="display:none;"></canvas>
+  </div>
+  <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
+    <button id="captureBtn" class="w-full border-1 p-4">Capture</button>
+    <textarea class="border-1 my-5 text-lg h-30 p-2 w-full" type="text"
+      placeholder="Enter Caption and Details about issue" id=""></textarea>
+    <input class="border-1 my-5 text-lg h-12 p-2 w-full" type="text" name="" id="location">
+    <button id="submitBtn" class="w-full border-1 p-4">Submit Issue</button>
+  </div>
 
   <script>
     const video = document.getElementById('video');
@@ -47,13 +48,13 @@
       video: { facingMode: { ideal: "environment" } },
       audio: false
     })
-    .then(stream => {
-      video.srcObject = stream;
-    })
-    .catch(err => {
-      console.error("Error accessing camera:", err);
-    //   alert("Camera access failed");
-    });
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        console.error("Error accessing camera:", err);
+        //   alert("Camera access failed");
+      });
 
     captureBtn.addEventListener('click', () => {
       canvas.style.display = "block";
@@ -65,23 +66,29 @@
     });
 
     window.onload = function () {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          document.getElementById("location").value = `${lat}, ${lon}`;
-        },
-        (error) => {
-          console.warn("Location access denied or failed.", error);
-          document.getElementById("location").placeholder = "Enter location manually";
-        }
-      );
-    } else {
-      document.getElementById("location").placeholder = "Geolocation not supported";
-    }
-  };
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById("location").value = `${lat}, ${lon}`;
+          },
+          (error) => {
+            console.warn("Location access denied or failed.", error);
+            document.getElementById("location").placeholder = "Enter location manually";
+          }
+        );
+      } else {
+        document.getElementById("location").placeholder = "Geolocation not supported";
+      }
+    };
   </script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+  <script src="firebase-config.js"></script>
+
 </body>
 
 </html>
