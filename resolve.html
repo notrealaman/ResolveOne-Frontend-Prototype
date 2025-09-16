@@ -31,32 +31,36 @@
     <canvas id="canvas" width="300" height="250" style="display:none;"></canvas>
 
 
-    <script>
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const captureBtn = document.getElementById('captureBtn');
+     <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureBtn = document.getElementById('captureBtn');
 
-        // Request access to the user's camera
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(err => {
-                console.error("Error accessing camera: ", err);
-                alert("Camera access denied or not available.");
-            });
+    // Try to access the back camera
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { exact: "environment" } }
+    })
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(err => {
+      console.error("Back camera not available:", err);
+      alert("Back camera not accessible. Trying default camera...");
 
-        // Capture image from video stream
-        captureBtn.addEventListener('click', () => {
-            canvas.style.display = "block";
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // fallback to default camera
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.error("Camera access failed", err));
+    });
 
-            // Convert image to base64 if needed
-            const imageData = canvas.toDataURL("image/png");
-            console.log("Captured Image:", imageData);
-        });
-    </script>
+    captureBtn.addEventListener('click', () => {
+      canvas.style.display = "block";
+      const context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL("image/png");
+      console.log("Captured Image:", imageData);
+    });
+  </script>
 </body>
 
 </html>
