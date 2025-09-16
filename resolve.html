@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <title>Resolve One</title>
+</head>
+
+<style>
+    body {
+        overflow: hidden;
+    }
+</style>
+
+<body>
+    <nav class="w-full h-20 px-5 bg-black text-white flex flex-row justify-between items-center">
+        <h1 onclick="window.open('/','_self')" style="font-family: 'Oswald', sans-serif;" class="text-2xl font-bold">
+            ResolveOne</h1>
+        <p onclick="window.open('/resolve.html','_self')">Report Issue</p>
+    </nav>
+
+    <h2>📷 Live Camera Preview</h2>
+    <video id="video" width="300" height="250" autoplay></video>
+    <br>
+    <button id="captureBtn">Capture</button>
+    <canvas id="canvas" width="300" height="250" style="display:none;"></canvas>
+
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+
+        // Request access to the user's camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing camera: ", err);
+                alert("Camera access denied or not available.");
+            });
+
+        // Capture image from video stream
+        captureBtn.addEventListener('click', () => {
+            canvas.style.display = "block";
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert image to base64 if needed
+            const imageData = canvas.toDataURL("image/png");
+            console.log("Captured Image:", imageData);
+        });
+    </script>
+</body>
+
+</html>
