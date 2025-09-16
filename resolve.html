@@ -32,6 +32,9 @@
     </div>
     <div style="margin: 0 !important;" class="flex flex-col items-center justify-center p-5">
         <button id="captureBtn" class="w-full border-1 p-4">Capture</button>
+        <textarea class="border-1 my-5 text-lg h-30 p-2 w-full" type="text" placeholder="Enter Caption and Details about issue" id=""></textarea>
+        <input class="border-1 my-5 text-lg h-12 p-2 w-full" type="text" name="" id="location">
+      <button id="submitBtn" class="w-full border-1 p-4">Submit Issue</button>
     </div>
 
   <script>
@@ -60,6 +63,24 @@
       const image = canvas.toDataURL("image/png");
       console.log("Captured image:", image);
     });
+
+    window.onload = function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          document.getElementById("location").value = `${lat}, ${lon}`;
+        },
+        (error) => {
+          console.warn("Location access denied or failed.", error);
+          document.getElementById("location").placeholder = "Enter location manually";
+        }
+      );
+    } else {
+      document.getElementById("location").placeholder = "Geolocation not supported";
+    }
+  };
   </script>
 </body>
 
