@@ -38,8 +38,10 @@
 
     // Try to access the back camera
     navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { exact: "environment" } }
-    })
+  video: { facingMode: { ideal: "environment" } },
+  audio: false
+})
+
     .then(stream => {
       video.srcObject = stream;
     })
