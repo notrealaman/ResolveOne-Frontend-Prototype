@@ -4,6 +4,20 @@
   const submitBtn = document.getElementById('submitBtn');
   const locationInput = document.getElementById('location');
   const descriptionInput = document.querySelector('textarea');
+// firebase-config.js
+const firebaseConfig = {
+  apiKey: "AIzaSyB49wyl8o802jaCJE2uNa9rXVAiT_pWs6w",
+  authDomain: "lakwin-a2d36.firebaseapp.com",
+  projectId: "lakwin-a2d36",
+  storageBucket: "lakwin-a2d36.appspot.com",
+  messagingSenderId: "372739001174",
+  appId: "1:372739001174:web:706c1a4e6d5597d908e4f7"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
 
   let capturedImageData = "";
 
@@ -51,6 +65,7 @@
       return;
     }
 
+    console.log("hello");
     const description = descriptionInput.value;
     const location = locationInput.value;
 
