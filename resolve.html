@@ -31,38 +31,47 @@
     <canvas id="canvas" width="300" height="250" style="display:none;"></canvas>
 
 
-     <script>
+     <!DOCTYPE html>
+<html>
+<head>
+  <title>Back Camera Access (Mobile-Friendly)</title>
+</head>
+<body>
+  <h2>📷 Mobile Back Camera Preview</h2>
+  <video id="video" width="320" height="240" autoplay playsinline></video>
+  <br>
+  <button id="captureBtn">Capture</button>
+  <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+
+  <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const captureBtn = document.getElementById('captureBtn');
 
-    // Try to access the back camera
+    // Use ideal facing mode instead of exact
     navigator.mediaDevices.getUserMedia({
-  video: { facingMode: { ideal: "environment" } },
-  audio: false
-})
-
+      video: { facingMode: { ideal: "environment" } },
+      audio: false
+    })
     .then(stream => {
       video.srcObject = stream;
     })
     .catch(err => {
-      console.error("Back camera not available:", err);
-      alert("Back camera not accessible. Trying default camera...");
-
-      // fallback to default camera
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => video.srcObject = stream)
-        .catch(err => console.error("Camera access failed", err));
+      console.error("Error accessing camera:", err);
+      alert("Camera access failed");
     });
 
     captureBtn.addEventListener('click', () => {
       canvas.style.display = "block";
-      const context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageData = canvas.toDataURL("image/png");
-      console.log("Captured Image:", imageData);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const image = canvas.toDataURL("image/png");
+      console.log("Captured image:", image);
     });
   </script>
+</body>
+</html>
+
 </body>
 
 </html>
