@@ -38,56 +38,11 @@
     <button id="submitBtn" class="w-full border-1 p-4">Submit Issue</button>
   </div>
 
-  <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const captureBtn = document.getElementById('captureBtn');
-
-    // Use ideal facing mode instead of exact
-    navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: "environment" } },
-      audio: false
-    })
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(err => {
-        console.error("Error accessing camera:", err);
-        //   alert("Camera access failed");
-      });
-
-    captureBtn.addEventListener('click', () => {
-      canvas.style.display = "block";
-      video.style.display = "none";
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const image = canvas.toDataURL("image/png");
-      console.log("Captured image:", image);
-    });
-
-    window.onload = function () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById("location").value = `${lat}, ${lon}`;
-          },
-          (error) => {
-            console.warn("Location access denied or failed.", error);
-            document.getElementById("location").placeholder = "Enter location manually";
-          }
-        );
-      } else {
-        document.getElementById("location").placeholder = "Geolocation not supported";
-      }
-    };
-  </script>
-
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
 
 </body>
 
